@@ -1,0 +1,76 @@
+{
+    "app_info": {
+        "time_multiplier": 4.0,
+        "width": 900,
+        "height": 900,
+        "fullscreen": false,
+        "reverse_update_rate": 50.0,
+        "iteration_max": -1,
+        "scale": 1.0,
+        "show_mass_center": false,
+        "show_average_center": false,
+        "show_axis": false,
+        "mass_center_color": "#ffffff",
+        "average_center_color": "#ffffff",
+        "axis_color": "#59575c",
+        "show_orbit": true,
+        "max_orbit_point": 7500,
+        "computation_rule": "Gravit\u00e9 (sans G)",
+        "scale_unit": "e+0",
+        "gpu_mode": "Efficacit\u00e9 \u00e9nerg\u00e9tique",
+        "shader_preset": "Epur\u00e9"
+    },
+    "bodys": [
+        {
+            "name": "corp n\u00b01",
+            "pos_x": 0.0,
+            "pos_y": 205.0,
+            "velocity": {
+                "x": -20.0,
+                "y": -0.0
+            },
+            "masse": 20000.0,
+            "color": {
+                "r": 4,
+                "g": 236,
+                "b": 255,
+                "a": 255
+            },
+            "size": 20.0
+        },
+        {
+            "name": "corp n\u00b02",
+            "pos_x": 0.0,
+            "pos_y": -0.0,
+            "velocity": {
+                "x": 4.0,
+                "y": -0.0
+            },
+            "masse": 100000.0,
+            "color": {
+                "r": 104,
+                "g": 255,
+                "b": 212,
+                "a": 255
+            },
+            "size": 50.0
+        },
+        {
+            "name": "corp n\u00b03",
+            "pos_x": 0.0,
+            "pos_y": 180.0,
+            "velocity": {
+                "x": 7.0,
+                "y": -0.0
+            },
+            "masse": 100.0,
+            "color": {
+                "r": 255,
+                "g": 12,
+                "b": 5,
+                "a": 255
+            },
+            "size": 10.0
+        }
+    ]
+}

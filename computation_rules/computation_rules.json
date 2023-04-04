@@ -1,0 +1,14 @@
+[
+    {
+        "name":"Sans distance",
+        "norme_formula":"a.masse * b.masse"
+    },
+    {
+        "name":"Gravit\u00e9 (avec G)",
+        "norme_formula":"Decimal('6.6743e-11') * a.masse * b.masse / (((a.pos_x - b.pos_x) ** 2) + ((a.pos_y - b.pos_y) ** 2 ))"
+    },
+    {
+        "name":"Gravit\u00e9 (sans G)",
+        "norme_formula":"a.masse * b.masse / (((a.pos_x - b.pos_x) ** 2) + ((a.pos_y - b.pos_y) ** 2 ))"
+    }
+]

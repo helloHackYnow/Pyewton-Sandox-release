@@ -1,0 +1,5 @@
+from Body import Body
+from decimal import Decimal
+
+def computeNorme(a:Body, b:Body):
+  return a.masse * b.masse / (((a.pos_x - b.pos_x) ** 2) + ((a.pos_y - b.pos_y) ** 2 ))

@@ -1,0 +1,23 @@
+{
+    "app_info": {
+        "time_multiplier": 1.0,
+        "width": 900,
+        "height": 900,
+        "fullscreen": false,
+        "reverse_update_rate": 120,
+        "iteration_max": -1,
+        "scale": 1.0,
+        "show_mass_center": true,
+        "show_average_center": false,
+        "show_axis": true,
+        "mass_center_color": "#ffffff",
+        "average_center_color": "#ffffff",
+        "axis_color": "#ffffff",
+        "show_orbit": true,
+        "max_orbit_point": 10000,
+        "computation_rule": "Gravit\u00e9 (avec G)",
+        "scale_unit": "e+0",
+        "gpu_mode": "Efficacit\u00e9 \u00e9nerg\u00e9tique",
+        "shader_preset": "Epur\u00e9"
+    }
+}

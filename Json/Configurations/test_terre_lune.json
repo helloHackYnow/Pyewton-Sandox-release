@@ -1,0 +1,59 @@
+{
+    "app_info": {
+        "time_multiplier": 38880.0,
+        "width": 900,
+        "height": 900,
+        "fullscreen": false,
+        "reverse_update_rate": 0.001,
+        "iteration_max": -1,
+        "scale": 2.0,
+        "show_mass_center": false,
+        "show_average_center": false,
+        "show_axis": true,
+        "mass_center_color": "#195c59",
+        "average_center_color": "#ffffff",
+        "axis_color": "#414141",
+        "show_orbit": true,
+        "max_orbit_point": 10000,
+        "computation_rule": "Gravit\u00e9 (avec G)",
+        "scale_unit": "e+6",
+        "gpu_mode": "Efficacit\u00e9 \u00e9nerg\u00e9tique",
+        "shader_preset": "Epur\u00e9"
+    },
+    "bodys": [
+        {
+            "name": "corp n\u00b01",
+            "pos_x": 0.0,
+            "pos_y": -0.0,
+            "velocity": {
+                "x": -9.999999974752427,
+                "y": -0.0
+            },
+            "masse": 6e+24,
+            "color": {
+                "r": 29,
+                "g": 4,
+                "b": 255,
+                "a": 255
+            },
+            "size": 70.0
+        },
+        {
+            "name": "lune",
+            "pos_x": 0.0,
+            "pos_y": 384000000.0,
+            "velocity": {
+                "x": 1020.0000000395448,
+                "y": -0.0
+            },
+            "masse": 7e+22,
+            "color": {
+                "r": 114,
+                "g": 114,
+                "b": 122,
+                "a": 255
+            },
+            "size": 70.0
+        }
+    ]
+}

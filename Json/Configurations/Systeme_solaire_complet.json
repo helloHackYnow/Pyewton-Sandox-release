@@ -1,0 +1,178 @@
+{
+    "app_info": {
+        "time_multiplier": 20000000.0,
+        "width": 900,
+        "height": 900,
+        "fullscreen": true,
+        "reverse_update_rate": 5e-06,
+        "iteration_max": -1,
+        "scale": 20.0,
+        "show_mass_center": false,
+        "show_average_center": false,
+        "show_axis": true,
+        "mass_center_color": "#195c59",
+        "average_center_color": "#ffffff",
+        "axis_color": "#414141",
+        "show_orbit": true,
+        "max_orbit_point": 100000,
+        "computation_rule": "Gravit\u00e9 (avec G)",
+        "scale_unit": "e+9",
+        "gpu_mode": "Efficacit\u00e9 \u00e9nerg\u00e9tique",
+        "shader_preset": "Beau"
+    },
+    "bodys": [
+        {
+            "name": "Soleil",
+            "pos_x": 0.0,
+            "pos_y": -0.0,
+            "velocity": {
+                "x": 0.0,
+                "y": -0.0
+            },
+            "masse": 1.989e+30,
+            "color": {
+                "r": 255,
+                "g": 225,
+                "b": 2,
+                "a": 255
+            },
+            "size": 70.0
+        },
+        {
+            "name": "Mercure",
+            "pos_x": 0.0,
+            "pos_y": 57899999999.99963,
+            "velocity": {
+                "x": -46999.99976764957,
+                "y": -0.0
+            },
+            "masse": 3.3e+23,
+            "color": {
+                "r": 131,
+                "g": 56,
+                "b": 1,
+                "a": 255
+            },
+            "size": 20.0
+        },
+        {
+            "name": "Venus",
+            "pos_x": 0.0,
+            "pos_y": 108207999999.99963,
+            "velocity": {
+                "x": 35000.00048006768,
+                "y": -0.0
+            },
+            "masse": 4.8e+24,
+            "color": {
+                "r": 255,
+                "g": 89,
+                "b": 5,
+                "a": 255
+            },
+            "size": 30.0
+        },
+        {
+            "name": "Terre",
+            "pos_x": 0.0,
+            "pos_y": 149597870000.00006,
+            "velocity": {
+                "x": -29783.000172756147,
+                "y": -0.0
+            },
+            "masse": 5.973e+24,
+            "color": {
+                "r": 29,
+                "g": 4,
+                "b": 255,
+                "a": 255
+            },
+            "size": 35.0
+        },
+        {
+            "name": "Mars",
+            "pos_x": 0.0,
+            "pos_y": 227939199999.99957,
+            "velocity": {
+                "x": -23999.99971203215,
+                "y": -0.0
+            },
+            "masse": 6.4e+23,
+            "color": {
+                "r": 163,
+                "g": 7,
+                "b": 3,
+                "a": 255
+            },
+            "size": 30.0
+        },
+        {
+            "name": "Jupiter",
+            "pos_x": 0.0,
+            "pos_y": 777999999999.9995,
+            "velocity": {
+                "x": -13000.000080864993,
+                "y": -0.0
+            },
+            "masse": 1.9e+27,
+            "color": {
+                "r": 221,
+                "g": 148,
+                "b": 71,
+                "a": 255
+            },
+            "size": 50.0
+        },
+        {
+            "name": "Saturne",
+            "pos_x": 0.0,
+            "pos_y": 1429999999000.9998,
+            "velocity": {
+                "x": -9679.999948275508,
+                "y": -0.0
+            },
+            "masse": 5.7e+26,
+            "color": {
+                "r": 109,
+                "g": 72,
+                "b": 27,
+                "a": 255
+            },
+            "size": 45.0
+        },
+        {
+            "name": "Uranus",
+            "pos_x": 0.0,
+            "pos_y": 2871000000000.0,
+            "velocity": {
+                "x": 6796.000207032193,
+                "y": -0.0
+            },
+            "masse": 9.68e+25,
+            "color": {
+                "r": 39,
+                "g": 173,
+                "b": 192,
+                "a": 255
+            },
+            "size": 40.0
+        },
+        {
+            "name": "Neptune",
+            "pos_x": 0.0,
+            "pos_y": 4500000000000.0,
+            "velocity": {
+                "x": -5432.000307337148,
+                "y": -0.0
+            },
+            "masse": 1.024e+26,
+            "color": {
+                "r": 23,
+                "g": 39,
+                "b": 144,
+                "a": 255
+            },
+            "size": 40.0
+        }
+    ]
+}
