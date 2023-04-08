@@ -198,7 +198,7 @@ class App(customtkinter.CTk):
         self.left_menu_frame.grid_rowconfigure(1, weight=1)
         self.left_menu_frame.grid_rowconfigure(2, weight=0)
         
-        #Frame défilable pour la liste de planète
+        #Frame défilable pour la liste de corps
         #============================
         #scrollable frame
         self.list_body_frame = customtkinter.CTkScrollableFrame(master=self.left_menu_frame, width=150)
@@ -219,9 +219,9 @@ class App(customtkinter.CTk):
             button.grid(row=body_index, columnspan=2, pady=5, padx=5, sticky="s")
             self.list_button_body.append(button)
 
-        #Bouton pour ajouter une planète 
+        #Bouton pour ajouter un corps 
         #===============================
-        self.add_button = customtkinter.CTkButton(master=self.left_menu_frame, text="Ajouter une planète",
+        self.add_button = customtkinter.CTkButton(master=self.left_menu_frame, text="Ajouter un corps",
                                                   command=self.addBody)
         self.add_button.grid(row=1, column=0, sticky="ewn", padx=15)
         
@@ -394,7 +394,7 @@ class App(customtkinter.CTk):
         name:str = self.bodyList[body_index].name
         
         self.body_modification_window = customtkinter.CTkToplevel()
-        self.body_modification_window.title(f"Modifier la body {name}")
+        self.body_modification_window.title(f"Modifier le corps | {name}")
         self.body_modification_window.geometry("730x370")
         
         self.body_modification_window.protocol("WM_DELETE_WINDOW", self.onModificationWindowClose)
@@ -452,7 +452,7 @@ class App(customtkinter.CTk):
         
         self.label_size = customtkinter.CTkLabel(master=self.size_modification_frame,
                                                  text="Taille")
-        tl.CreateToolTip(self.label_size, "Taille de la planète (en pixels).\nPurement esthétique, ne change rien à la simulation")
+        tl.CreateToolTip(self.label_size, "Taille du corps (en pixels).\nPurement esthétique, ne change rien à la simulation")
         self.label_size.grid(row=0, column=0, padx=7, pady=7)
         
         self.size_var = customtkinter.StringVar()
@@ -487,7 +487,7 @@ class App(customtkinter.CTk):
         self.current_body_color_label = customtkinter.CTkLabel(master=self.current_body_color_frame, 
                                                     font=customtkinter.CTkFont(size=15, weight="bold"), 
                                                     text="Couleur")
-        tl.CreateToolTip( self.current_body_color_label, "Choix de la couleur de la planète.")
+        tl.CreateToolTip( self.current_body_color_label, "Choix de la couleur du corps.")
         self.current_body_color_label.grid(row=0, column=0, padx=10, pady=(10, 5), sticky='nw')
         
         self.pick_color_button = customtkinter.CTkButton(master=self.current_body_color_frame, text="Choisir une couleur",
@@ -504,7 +504,7 @@ class App(customtkinter.CTk):
         self.color_opacity_label = customtkinter.CTkLabel(master=self.current_body_color_frame,
                                                             font=customtkinter.CTkFont(size=15, weight="bold"),
                                                             text="Opacité")
-        tl.CreateToolTip( self.color_opacity_label, "Choix de l'opacité de la planète.")
+        tl.CreateToolTip( self.color_opacity_label, "Choix de l'opacité du corps.")
         self.color_opacity_label.grid(row=2, column=0, columnspan=2, padx=(10, 10), pady=5, sticky="w")
 
 
@@ -515,7 +515,7 @@ class App(customtkinter.CTk):
         
         self.label_starting_position = customtkinter.CTkLabel(master=self.current_body_position_frame, text="Position de départ",
                                                               font=customtkinter.CTkFont(weight="bold"))
-        tl.CreateToolTip( self.label_starting_position, "Choix de la position de départ de la planète. (en mètres)")
+        tl.CreateToolTip( self.label_starting_position, "Choix de la position de départ du corps. (en mètres)")
         self.label_starting_position.grid(row=0, column=0, columnspan=2, sticky="ws", padx=15, pady=10)
         
         self.label_position_x = customtkinter.CTkLabel(master=self.current_body_position_frame, text="X :")
