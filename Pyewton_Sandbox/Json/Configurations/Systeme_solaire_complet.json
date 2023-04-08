@@ -6,7 +6,7 @@
         "fullscreen": true,
         "reverse_update_rate": 5e-06,
         "iteration_max": -1,
-        "scale": 20.0,
+        "scale": 10.0,
         "show_mass_center": false,
         "show_average_center": false,
         "show_axis": true,

@@ -1,17 +1,20 @@
 import py_compile
 import json
+import os
 
 
 str_to_add = "from Body import Body\nfrom decimal import Decimal\n\ndef computeNorme(a:Body, b:Body):\n  return "
 
 def generate_code(json_path):
+    local_path = os.path.dirname(os.path.realpath(__file__))
+    
     with open(json_path) as file:
         compute_rules = json.load(file)
         file.close()
     
     for rule in compute_rules:
         script_name = rule["name"].replace(" ", "_")+".py"
-        script_path = f"computation_rules/{script_name}"
+        script_path = os.path.join(local_path, script_name)
         str_script = str_to_add + rule["norme_formula"]
         
         try:

@@ -1,4 +1,5 @@
 from PIL import Image, ImageDraw
+import os
 
 def generateCircle(diameter, color, sprit_Name, rgb_mode='RGBA', directorieFolder='image') -> str:
     """

@@ -25,8 +25,6 @@ class AppInfoTopWindow(customtkinter.CTkToplevel):
         
         if sys.platform == "win32":
             self.after(200, lambda: self.iconbitmap(os.path.join(current_dir, "Icons", "settings.ico")))
-        else:
-            self.after(200, lambda: self.iconbitmap(os.path.join(current_dir, "Icons", "settings.xbm")))
         
         
         self.title("Modifier les paramètres")

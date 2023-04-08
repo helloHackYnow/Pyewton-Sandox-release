@@ -1,6 +1,7 @@
 import Sprits_system.sprit_generator as sprit_generator
 from Vecteur2D import Vecteur2D
 from decimal import Decimal
+import os
 
 class Body:
     def __init__(self, 
@@ -26,5 +27,8 @@ class Body:
         """
         Create the sprites for the body (main sprite and trajectorie sprite).
         """
-        self.spritePath = sprit_generator.generateCircle(self.size, self.color, self.name, directorieFolder="Sprits_system/image")
-        self.pos_SpritePath = sprit_generator.generateCircle(3.5, self.color, self.name + "pos", directorieFolder="Sprits_system/image/Pos_sprites")
+        local_path = os.path.dirname(os.path.realpath(__file__))
+        path_to_save = os.path.join(local_path, 'Sprits_system', 'Images', 'Pos_sprites')
+        self.spritePath = sprit_generator.generateCircle(self.size, self.color, self.name, directorieFolder=path_to_save)
+        path_to_save = os.path.join(local_path, 'Sprits_system', 'Images', 'Pos_sprites')
+        self.pos_SpritePath = sprit_generator.generateCircle(3.5, self.color, self.name + "pos", directorieFolder=path_to_save)

@@ -38,7 +38,7 @@ bg_shader =    """uniform vec2 offset;
 
                     void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
-                        // On normalise les coordonées du pixel (de 0 to 1)                        
+                        // On normalise les coordonées du pixel (de 0 à 1)                        
                         float rapport = 0.0;
                         rapport += iResolution.x/iResolution.y;
 
@@ -48,8 +48,10 @@ bg_shader =    """uniform vec2 offset;
 
                         float alpha = 0.0;
 
+                        // On boucle sur chaque layer
                         for(float f= 1.0; f < volume_steps+1; f++){
-
+                            
+                            // Boucle sur chaque étoiles du layer
                             for(float i= 0.; i < star_count / volume_steps; i++){
 
                                 float seed = i + f*0.0001;
@@ -169,7 +171,7 @@ class Simulation(arcade.Window):
         self.camera_background = arcade.Camera(self.width, self.height)
         
             
-        self.path = os.getcwd()                                                            
+        self.path = os.path.dirname(os.path.realpath(__file__))                                                            
         self.bodyList = bodyList
         self.time_multiplier = Decimal(time_multiplier)
         self.iteration = 0
@@ -217,7 +219,7 @@ class Simulation(arcade.Window):
         
         #Compute rule
         #Regénérer les scripts de calcul de norme
-        generate_computation_file.generate_code(self.path+"/computation_rules/computation_rules.json")
+        generate_computation_file.generate_code(os.path.join(self.path, 'computation_rules', 'computation_rules.json'))
         
         script_path = "computation_rules."+self.compute_rule.replace(" ", "_")
         try:
@@ -379,11 +381,7 @@ class Simulation(arcade.Window):
         self.updateTimeText()
         arcade.draw_text(self.text_time, self.width - 100, self.height - 50)
         
-        
 
-        # Uncomment the following lines to take a screenshot of each frame
-        # image = arcade.get_image()
-        # image.save('screenshot.png', 'PNG')
         
 
     def on_mouse_drag(self, x: int, y: int, dx: int, dy: int, buttons: int, modifiers: int):

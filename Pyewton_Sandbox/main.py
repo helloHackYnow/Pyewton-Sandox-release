@@ -1,4 +1,5 @@
 #Imports
+import argparse
 import customtkinter
 import tkinter as tk
 from PIL import Image
@@ -18,10 +19,14 @@ import webbrowser
 from typing import Union
 import sys
 import psutil
-from ctypes import windll
-windll.shcore.SetProcessDpiAwareness(1)
+
+argParser = argparse.ArgumentParser()
+argParser.add_argument("--na", help="Exécute le programme sans les privilèges administrateurs. (Ne fonctionne que sur Windows)", action="store_true")
+args = argParser.parse_args()
 
 if sys.platform == "win32":
+    from ctypes import windll
+    windll.shcore.SetProcessDpiAwareness(1)
     from gpu_tool import set_gpu_priority
 
 
@@ -46,8 +51,7 @@ class App(customtkinter.CTk):
         
         if sys.platform == "win32":
             self.after(200, lambda: self.iconbitmap(os.path.join(self.path, "Icons", "Icon512.ico")))
-        else:
-            self.after(200, lambda: self.iconbitmap(os.path.join(self.path, "Icons", "Icon512.xbm")))
+
             
         self.title("Pyewton Sandox")
         
@@ -101,13 +105,13 @@ class App(customtkinter.CTk):
         Clears the sprites folder.
         """
         #Clean Sprite folder:
-        sprite_folder_path = os.path.join(self.path, "Sprits_system", "Image")
+        sprite_folder_path = os.path.join(self.path, "Sprits_system", "Images")
         folder_content = os.listdir(sprite_folder_path)
         for item in folder_content:
             if item.endswith(".png"):
                 os.remove(os.path.join(sprite_folder_path, item))
         #Clean pos_sprite folder:
-        sprite_folder_path = os.path.join(self.path, "Sprits_system", "Image", "Pos_sprites")
+        sprite_folder_path = os.path.join(self.path, "Sprits_system", "Images", "Pos_sprites")
         folder_content = os.listdir(sprite_folder_path)
         for item in folder_content:
             if item.endswith(".png"):
@@ -656,7 +660,6 @@ class App(customtkinter.CTk):
         """
         value = entry.get()
         try:
-            new_value = type_(value)
             good_value = True
         except:
             entry.configure(fg_color = "red")
@@ -939,11 +942,11 @@ def is_admin() -> bool:
     is_admin = ctypes.windll.shell32.IsUserAnAdmin()
     return is_admin      
 
-
-# Verifie the os .
-# If the program run on window, ask for admin privileges.
-if __name__=="__main__":
-    if sys.platform == "win32":
+def main(args):
+    
+     # Verifie the os .
+    # If the program run on window, ask for admin privileges.
+    if sys.platform == "win32" and not args.na:
         if is_admin():
             print(f"Executable : {sys.executable}")
             app = App()
@@ -954,3 +957,6 @@ if __name__=="__main__":
     else:
         app = App()
         app.mainloop()
+        
+        
+main(args)
