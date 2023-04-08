@@ -29,3 +29,10 @@ py -m pip install -r requirements.txt
 >````
 >py -3.10 -m pip install -r requirements.txt
 >````
+## Aperçu :  
+  
+![Interface](https://github.com/helloHackYnow/Pyewton-Sandox-release/blob/main/Assets/Documentation/interface_config2.png)  
+> Interface de l'éditeur de paramètres  
+
+![Simulation](https://github.com/helloHackYnow/Pyewton-Sandox-release/blob/main/Assets/Documentation/simulation.png) 
+> Exemple de simulation
