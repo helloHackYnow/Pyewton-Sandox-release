@@ -1,9 +1,9 @@
 {
     "app_info": {
         "time_multiplier": 5.0,
-        "width": 900,
+        "width": 800,
         "height": 900,
-        "fullscreen": true,
+        "fullscreen": false,
         "reverse_update_rate": 30.0,
         "iteration_max": -1,
         "scale": 1.0,
