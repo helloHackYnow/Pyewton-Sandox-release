@@ -3,7 +3,7 @@
         "time_multiplier": 20000000.0,
         "width": 900,
         "height": 900,
-        "fullscreen": true,
+        "fullscreen": false,
         "reverse_update_rate": 5e-06,
         "iteration_max": -1,
         "scale": 10.0,
