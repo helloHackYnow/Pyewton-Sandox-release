@@ -33,6 +33,9 @@ py -m pip install -r requirements.txt
   
 ![Interface](https://github.com/helloHackYnow/Pyewton-Sandox-release/blob/main/Assets/Documentation/interface_config2.png)  
 > Interface de l'éditeur de paramètres  
+  
+![Interface](https://github.com/helloHackYnow/Pyewton-Sandox-release/blob/main/Assets/Documentation/body_properties.png)  
+> **Interface de l'éditeur de paramètres**  
 
 ![Simulation](https://github.com/helloHackYnow/Pyewton-Sandox-release/blob/main/Assets/Documentation/simulation.png) 
 > Exemple de simulation
