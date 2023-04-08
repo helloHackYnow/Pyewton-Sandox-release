@@ -587,7 +587,7 @@ class AppInfoTopWindow(customtkinter.CTkToplevel):
         self.addContentValidator(self.max_orbit_point_entry, int)
 
         self.shader_optionmenu = customtkinter.CTkOptionMenu(master=self.shader_optionmenu_frame,
-                                                             values=["Epuré", "Beau", "Magnifique", "Pyewton Gigachad"],
+                                                             values=["Epuré", "Beau", "Magnifique", "Performance killer"],
                                                              variable=self.shader_preset_var)
         
         self.show_orbit_checkbox.grid(sticky="e")
