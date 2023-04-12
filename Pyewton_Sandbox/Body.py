@@ -25,7 +25,7 @@ class Body:
 
     def CreateSprite(self):
         """
-        Create the sprites for the body (main sprite and trajectorie sprite).
+        Créer les sprites du corps (sprite principal et sprite de trajectoire).
         """
         local_path = os.path.dirname(os.path.realpath(__file__))
         path_to_save = os.path.join(local_path, 'Sprits_system', 'Images', 'Pos_sprites')

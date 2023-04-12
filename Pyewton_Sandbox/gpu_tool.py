@@ -5,8 +5,9 @@ import winreg as wreg
 gpu_priority_keys_list = ["Software", "Microsoft", "DirectX", "UserGpuPreferences"]
 
 def set_gpu_priority(priority:int):
-    """Allows to select the gpu on which the python interpreter will execute in case of display needs.
-    Only works on Windows ! (Editing the registry)
+    """
+    Permet de sélectionner le gpu sur lequel l'interpréteur python s'exécutera en cas de besoin d'affichage.
+    Ne fonctionne que sous Windows ! (Edition du registre)
 
     Arguments:
         priority (int): 

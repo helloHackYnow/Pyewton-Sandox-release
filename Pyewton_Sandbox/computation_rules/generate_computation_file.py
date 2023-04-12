@@ -3,7 +3,7 @@ import json
 import os
 
 
-str_to_add = "from Body import Body\nfrom decimal import Decimal\n\ndef computeNorme(a:Body, b:Body):\n  return "
+str_to_add = "#Code généré automatiquement à partir du script 'generate_computation_file.py'\n\nfrom Body import Body\nfrom decimal import Decimal\n\ndef computeNorme(a:Body, b:Body):\n  return "
 
 def generate_code(json_path):
     local_path = os.path.dirname(os.path.realpath(__file__))

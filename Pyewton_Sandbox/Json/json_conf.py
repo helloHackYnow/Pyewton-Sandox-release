@@ -5,13 +5,13 @@ from Vecteur2D import Vecteur2D
 
 def loadBodysList(jsonPath) -> list[Body]:
     """
-    Load a list of bodys from a JSON file located at the specified path.
+    Charge une liste de corps à partir d'un fichier JSON situé au chemin spécifié.
 
     Parameters:
-        jsonPath (str): The path to the JSON file containing the body information.
+        jsonPath (str): Chemin d'accès au fichier JSON contenant les informations sur les corps.
 
     Returns:
-        list[Body]: A list of Body objects created from the information in the JSON file.
+        list[Body]: Une liste d'objets "corps" créés à partir des informations contenues dans le fichier JSON.
     """
     list_bodys = []
     with open(jsonPath) as file:
@@ -52,13 +52,13 @@ def loadBodysList(jsonPath) -> list[Body]:
 
 def loadInfoApp(jsonPath:str) -> dict:
     """
-    Load app information from a JSON file located at the specified path.
+    Charge les informations relatives à l'application à partir d'un fichier JSON situé dans le chemin spécifié.
 
     Parameters:
-        jsonPath (str): The path to the JSON file containing the app information.
+        jsonPath (str): Chemin d'accès au fichier JSON contenant les informations relatives à l'application.
 
     Returns:
-        dict: A dictionary containing the app information.
+        dict: Un dictionnaire contenant les informations relatives à l'application.
     """
     appInfo = {}
     with open(jsonPath) as file:
@@ -68,34 +68,34 @@ def loadInfoApp(jsonPath:str) -> dict:
 
 def saveInfo(jsonPath, bodyList:"list[Body]", appInfo:dict):
     """
-    Save bodys and app informations to a JSON file located at the specified path.
+    Sauvegarde des corps et des informations sur l'application dans un fichier JSON situé dans le chemin spécifié.
 
     Parameters:
-        jsonPath (str): The path to the JSON file to which the information will be saved.
-        bodyList (list[Body]): A list of Body objects to be saved to the JSON file.
-        appInfo (dict): A dictionary containing app information to be saved to the JSON file.
+        jsonPath (str): Chemin d'accès au fichier JSON dans lequel les informations seront enregistrées.
+        bodyList (list[Body]): Une liste d'objets 'corps' à enregistrer dans le fichier JSON.
+        appInfo (dict): Un dictionnaire contenant des informations sur l'application à enregistrer dans le fichier JSON.
     """
     data = {}
     bodys = []
     for body in bodyList:
         body_info = {}
 
-        #Name
+        #Nom
         body_info['name'] = body.name
 
         #Position
         body_info['pos_x'] = float(body.pos_x)
         body_info['pos_y'] = float(body.pos_y)
         
-        #Velocity
+        #Vitesse
         velocite = {"x":float(body.velocity.x),
                     "y":float(body.velocity.y)}
         body_info['velocity'] = velocite
 
-        #Mass
+        #Masse
         body_info["masse"] = float(body.masse)
 
-        #Color
+        #Couleur
         r = body.color[0]
         g = body.color[1]
         b = body.color[2]
@@ -108,7 +108,7 @@ def saveInfo(jsonPath, bodyList:"list[Body]", appInfo:dict):
         }
         body_info["color"] = color
 
-        #Size
+        #Taille
         body_info['size'] = float(body.size)
         bodys.append(body_info)
     

@@ -16,12 +16,12 @@ class CanvasWithBody(tk.Canvas):
         self.circle_list = []
         self.arrow_list = []
         
-        # Show axis
+        # Montrer les axes
         if show_axis:
             self.create_line(width/2, 0, width/2, height, fill=axis_color)
             self.create_line(0, height/2, width, height/2, fill=axis_color)
         
-        # Scale indicator
+        # Indicateur d'échelle 
         if scale:
             start = (40,height-40)
             lenght = 150 * scale
@@ -46,23 +46,23 @@ class CanvasWithBody(tk.Canvas):
                       on_double_click:Callable=None
                       ):
         """
-        Creates a new body, wich is basically a circle with arrow pointing from its center representing its velocity.
+        Créé un nouveau corps ( rond coloré avec un flèche pointant de sin centre représentant sa vitesse)
 
         Parameters:
-            pos_x (float): The x-coordinate of the body's position (default is 0).
-            pos_y (float): The y-coordinate of the body's position (default is 0).
-            velocity (Vecteur2D): The velocity of the body (default is Vecteur2D(50, 0)).
+            pos_x (float): La coordonnée x de la position du corps (0 par défaut).
+            pos_y (float): La coordonnée y de la position du corps (0 par défaut).
+            velocity (Vecteur2D): La vitesse du corps (Vecteur2D(50, 0) par défaut).
 
         Returns:
-            circle_id (int): The ID of the created circle object.
-            arrow_id (int): The ID of the created arrow object.
+            circle_id (int): L'ID de l'objet cercle créé.
+            arrow_id (int): L'ID de l'objet flèche créé.
         """
-        # Create a circle and arrow at the specified position
+        # Créer un cercle et une flèche à la position spécifiée
         r = Decimal(size/2)
         circle_id = self.create_oval(pos_x - r, pos_y - r, pos_x + r, pos_y + r, fill=color)
         arrow_id = self.create_line(pos_x, pos_y, pos_x + velocity.x, pos_y + velocity.y, arrow=tk.LAST, width=2)
         
-        # Bind the start_drag and on_drag functions to the left mouse button press and release events for the new objects
+        # Lier les fonctions start_drag et on_drag aux nouveaux objets.
         self.tag_bind(circle_id, '<ButtonPress-1>', self.start_drag)
         self.tag_bind(circle_id, '<B1-Motion>', lambda event, arrow_id=arrow_id:self.on_drag(event, arrow_id))
         self.tag_bind(arrow_id, '<ButtonPress-1>', self.start_drag)
@@ -78,53 +78,49 @@ class CanvasWithBody(tk.Canvas):
     
 
     def start_drag(self, event):
-        """function that will be called when the user starts dragging the circle or the arrow.
-
-        Parameters:
-            event (tkinter event object): The event object representing the situation at the begining of the mouse drag.
         """
-        # Remember the starting position of the object
+        Fonction appelée lorsque l'utilisateur commencera à faire glisser le cercle ou la flèche.
+        """
+        # Mémoriser la position initiale de l'objet
         self.x = event.x
         self.y = event.y
 
 
     def on_drag(self, event, arrow_id):
-        """This function that will be called when the user moves the mouse while dragging the circle or the arrow.
-
+        """
+        Cette fonction est appelée lorsque l'utilisateur déplace la souris en faisant glisser le cercle ou la flèche.
+        
         Parameters:
-            event (tkinter event object): The event object representing the mouse drag.
             arrow_id (int): id of the arrow associate with the circle the user is moving
         """
-        # Calculate the distance the mouse has moved
+        # Calculer la distance parcourue par la souris
         delta_x = event.x - self.x
         delta_y = event.y - self.y
-        # Move the object by the same distance
+        # Déplacer l'objet de la même distance
         self.move(tk.CURRENT, delta_x, delta_y)
         self.move(arrow_id, delta_x, delta_y)
-        # Update the starting position for the next time this function is called
+        # Mise à jour de la position de départ en prévision du prochain appel de cette fonction
         self.x = event.x
         self.y = event.y
 
 
     def on_drag_arrow(self, event):
-        """This function that will be called when the user drag the arrow.
-
-        Parameters:
-            event (tkinter event object): The event object representing the mouse drag.
         """
-        # Update the end position of the arrow, keeping the start position fixed at the center of the circle
+        Cette fonction est appelée lorsque l'utilisateur fait glisser la flèche.
+        """
+        # Mettre à jour la position finale de la flèche, en gardant la position de départ fixée au centre du cercle.
         first_pos = self.coords(tk.CURRENT)
         self.coords(tk.CURRENT, first_pos[0], first_pos[1], event.x, event.y)
         
     
     def get_all_positions(self):
         """
-        function which calculate the positions and velocity vector of each body
-
+        Fonction qui retourne les positions et le vecteur vitesse de chaque corps.
+        
         Returns
         -------
         _type_ : list
-            _description_ : list containing the position and the velocity vector of each body
+            _description_ : liste contenant la position et le vecteur vitesse de chaque corps.
         """
         output_list = []
         for body in range(len(self.circle_list)):

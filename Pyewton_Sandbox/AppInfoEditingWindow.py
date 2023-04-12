@@ -13,10 +13,8 @@ class AppInfoTopWindow(customtkinter.CTkToplevel):
 
     
     def __init__(self, appInfo:dict):
-        """Creates a window that allows the user to edit the simulation parameters with a graphical interface.
-
-        :param appInfo: The dictionnary containing the parameters to edit
-        :type appInfo: dict
+        """
+        Crée une fenêtre qui permet à l'utilisateur de modifier les paramètres de simulation à l'aide d'une interface graphique.
         """
         super().__init__()
         
@@ -603,25 +601,17 @@ class AppInfoTopWindow(customtkinter.CTkToplevel):
 
 
     def addContentValidator(self, entry:customtkinter.CTkEntry, type:Union[float, int, bool]):
-        """Makes it easy to bind a contentValidator to a entry
-
-        :param entry: The widget whose content is to be checked
-        :type entry: customtkinter.CTkEntry
-        :param type: Data type the value should matchs
-        :type type: Union[float, int, bool]
+        """
+        Facilite la liaison d'un contentValidator à une entrée.
         """
         
         entry.bind("<KeyRelease>", lambda x:self.entryContentValidator(entry, type))
     
     
     def entryContentValidator(self, entry:customtkinter.CTkEntry, type_:Union[float, int, bool]):
-        """Allows to change the color of an input dynamically, if the user input does not match
-        the expected data type.
-
-        :param entry: The widget whose content is to be checked
-        :type entry: customtkinter.CTkEntry
-        :param type_: Data type the value should matchs
-        :type type_: Union[float, int, bool]
+        """
+        Permet de changer la couleur d'une entrée de manière dynamique, 
+        si l'entrée de l'utilisateur ne correspond pas au type de données attendu.
         """
         value = entry.get()
         try:
@@ -642,10 +632,8 @@ class AppInfoTopWindow(customtkinter.CTkToplevel):
             
     
     def selectColor(self, key:str):
-        """Opens a color picker and sets self.appInfo[key] to the selected color.
-
-        :param key: the key to update in self.appInfo
-        :type key: str
+        """
+        Ouvre un sélecteur de couleurs et attribue à self.appInfo[key] la couleur sélectionnée.
         """
         color = CTkColorPicker.AskColor().get()
         if not color == None:
@@ -654,7 +642,8 @@ class AppInfoTopWindow(customtkinter.CTkToplevel):
         self.updateColor()
 
     def updateColor(self):
-        """Updates the color of the color indicators.
+        """
+        Met à jour la couleur des indicateurs de couleur.
         """
         mass_center_color = self.appInfo["mass_center_color"]
         average_center_color = self.appInfo["average_center_color"]
@@ -665,9 +654,9 @@ class AppInfoTopWindow(customtkinter.CTkToplevel):
         self.axis_color_indicator.configure(fg_color=axis_color)
         
     def _ok_event(self):
-        """This function is called whenever the "apply" button is pressed.\n
-        Update self.appInfo with the values of all the fields then destroy the window, wich returns self.appInfo.\n
-        If one of the value isn't valid (the field is red), it prints a message in the console.
+        """Cette fonction est appelée chaque fois que l'on appuie sur le bouton "apply".\n
+        Met à jour de self.appInfo avec les valeurs de tous les champs, puis destruction de la fenêtre, qui renvoie self.appInfo.\n
+        Si l'une des valeurs n'est pas valide (le champ est rouge), un message est affiché dans la console.
         """
         if len(self.bad_values_list) == 0:
             self.appInfo["width"]               = int(self.width_var.get())
@@ -694,16 +683,15 @@ class AppInfoTopWindow(customtkinter.CTkToplevel):
             print("Entrée(s) invalide(s), ne peut pas fermer !")
             
     def _on_closing(self):
-        """This function is called whenever the cross button on the title bar is pressed.
+        """
+        Cette fonction est appelée chaque fois que l'on appuie sur le bouton "croix" de la barre de titre.
         """
         self.grab_release()
         self.destroy()
     
     def get(self) -> dict:
-        """When called, this function waits for the window to be destroy, then returns an updated appInfo dictionnary.
-
-        :return: a dict containing all the simulation parameters
-        :rtype: dict
+        """
+        Lorsqu'elle est appelée, cette fonction attend que la fenêtre soit détruite, puis renvoie un dictionnaire appInfo mis à jour.
         """
         self.master.wait_window(self)
         return self.appInfo

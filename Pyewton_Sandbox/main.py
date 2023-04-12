@@ -63,8 +63,8 @@ class App(customtkinter.CTk):
         
         self.cleanSpriteFolder()
         
-        # Check if the program was manually launched by the user or by a reload
-        # If it was a relaod, it loads the configuration in the temp file then delete it
+        # Vérifie si le programme à été lancé par l'utilisateur ou est issu d'un rechargement du programme
+        # S'il s'agit d'un rechargement, il charge la configuration contenue dans le fichier temporaire, puis le supprime.
         if not self.isAReload():
             self.createEmptyConfiguration()
         else:
@@ -78,12 +78,8 @@ class App(customtkinter.CTk):
         self.update()
         
     def openConfiguration(self, configuration_path:Union[str, None]=None):
-        """Opens a window to select a configuration to run
-
-        :param configuration_path: _description_, defaults to None
-        :type configuration_path: str | None, optional
-        :param update_file_path: _description_, defaults to True
-        :type update_file_path: bool, optional
+        """
+        Ouvre une fenêtre pour sélectionner la configuration à charger
         """
         
         if not configuration_path:
@@ -102,15 +98,15 @@ class App(customtkinter.CTk):
 
     def cleanSpriteFolder(self):
         """
-        Clears the sprites folder.
+        Nettoie  les dossiers de sprites.
         """
-        #Clean Sprite folder:
+        # Nettoyage du dossier Sprite:
         sprite_folder_path = os.path.join(self.path, "Sprits_system", "Images")
         folder_content = os.listdir(sprite_folder_path)
         for item in folder_content:
             if item.endswith(".png"):
                 os.remove(os.path.join(sprite_folder_path, item))
-        #Clean pos_sprite folder:
+        # Nettoyage du dossier pos_sprite:
         sprite_folder_path = os.path.join(self.path, "Sprits_system", "Images", "Pos_sprites")
         folder_content = os.listdir(sprite_folder_path)
         for item in folder_content:
@@ -119,7 +115,7 @@ class App(customtkinter.CTk):
     
     def createEmptyConfiguration(self):
         """
-        Creates an empty configuration and load it.
+        Créé un fichier de configuration vide et le charge.
         """
         
         self.bodyList:list[Body] = []
@@ -131,7 +127,7 @@ class App(customtkinter.CTk):
     
     def createMainInterface(self):
         """
-        Constructs the default interface
+        Construit l'interface de départ
         """ 
         self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(0, weight=1)
@@ -145,7 +141,7 @@ class App(customtkinter.CTk):
     
     def createPreviewCanvas(self):
         """
-        Constructs the previsualization canvas.
+        Construit le cadre de prévisualisation
         """
         canvas_height = 540
         canvas_width = 990
@@ -185,7 +181,8 @@ class App(customtkinter.CTk):
     
     def createLeftMenu(self):
         """
-        Constructs the left part of the default window, with : the body's list, the button to create a body, the start button, and the window parameter button.
+        Construit la partie gauche de la fenêtre par défaut, avec : 
+        la liste des corps, le bouton pour créer un corps, le bouton de démarrage, et le bouton des paramètres de la fenêtre.
         """
         #Body left_menu_frame
         self.left_menu_frame = customtkinter.CTkFrame(master=self,width=180,corner_radius=0)
@@ -245,13 +242,15 @@ class App(customtkinter.CTk):
         #========================
         
         self.start_button = customtkinter.CTkButton(master=self.left_buttons_frame, height=40,
-                                                    text="start", command=self.startSimulation)
+                                                    text="Démarrer", command=self.startSimulation)
         self.start_button.grid(row=0, column=1, sticky="sew", padx=(0, 10), pady=10)
 
     def editAppInfo(self):
         """
-        Loads the parameters updated with the parameter window, and apply the modification in the simuation settings
+        Charge les paramètres modifiés grâce la fenêtre des paramètres,
+        et applique les modifications aux paramètres de simulation.
         """
+        self.saveInfoFromPreviewCanvas()
         self.app_info_window = AppInfoTopWindow(self.app_info)   
         self.app_info = self.app_info_window.get()
         
@@ -259,7 +258,7 @@ class App(customtkinter.CTk):
     
     def get_compute_rules(self):
         """
-        Gets the computation rules set in the file 'computation_rules.json'
+        Obtient les règles de calcul définies dans le fichier 'computation_rules.json'
         """
         comput_path = os.path.join(self.path, "computation_rules", "computation_rules.json")
         with open(comput_path, "r") as compute_json:
@@ -270,12 +269,12 @@ class App(customtkinter.CTk):
     
     def createMenuBar(self):
         """
-        Constructs the menu bar.
+        Construit la barre des menus.
         """
         self.menu_bar = tk.Menu(master=self)
         self.config(menu=self.menu_bar)
         
-        #File menu
+        # Menu "fichier"
         #=========
         self.file_menu = tk.Menu(self.menu_bar, tearoff=False)
         self.file_menu.add_command(label="Nouvelle configuration", command=self.createEmptyConfiguration)
@@ -285,14 +284,14 @@ class App(customtkinter.CTk):
         self.file_menu.add_command(label="Enregistrer", command=self.saveConfiguration)
         self.file_menu.add_command(label="Enregistrer sous", command=self.saveConfigurationAs)
         
-        #Application menu
+        #Menu "Application"
         #============
         self.program_menu = tk.Menu(self.menu_bar, tearoff=False)
         self.program_menu.add_command(label="Thème de l'application", command=self.create_theme_modification_window)
         self.program_menu.add_separator()
         self.program_menu.add_command(label="Recharger l'application", command=self.reloadProgram)
         
-        #Help menu
+        #Menu "Aide"
         #=========
         self.help_menu = tk.Menu(self.menu_bar, tearoff=False)
         self.help_menu.add_command(label="Page du projet", command=lambda:webbrowser.open("https://github.com/helloHackYnow/Pyewton-Sandox-release", new=2))
@@ -306,7 +305,7 @@ class App(customtkinter.CTk):
     
     def create_theme_modification_window(self):
         """
-        Constructs the theme modification window.
+        Construit la fenêtre de modification du thème.
         """
         try:
             self.theme_modification_window.destroy()
@@ -378,10 +377,10 @@ class App(customtkinter.CTk):
     
     def create_body_modification_window(self, body_index):
         """
-        Constucts the top level window which allows the user to modifie and delete a body.
+        Construit la fenêtre qui permet à l'utilisateur de modifier et de supprimer un corps.
         """
         
-        #destroy the window if already opened
+        # Détruire la fenêtre si elle est déjà ouverte
         try:
             self.body_modification_window.destroy()
         except:
@@ -429,7 +428,7 @@ class App(customtkinter.CTk):
         self.label_modification.grid(row=0, column=0, sticky="nesw", padx=15, pady=10)
         
         
-        #Mass modification stuff
+        # Modification de la masse
         #=======================
         self.mass_modification_frame = customtkinter.CTkFrame(master=self.left_frame_subWindow, width=150)
         self.mass_modification_frame.grid(row=1, padx=10, pady=10, sticky="nwse")
@@ -445,7 +444,7 @@ class App(customtkinter.CTk):
         self.mass_entry.grid(row=1, column=0, padx=7, pady=7)
         
         
-        #Size modification stuff
+        # Modification de la taille
         #=======================
         self.size_modification_frame = customtkinter.CTkFrame(master=self.left_frame_subWindow, width=150)
         self.size_modification_frame.grid(row=2, padx=10, pady=(0, 10), sticky="nwse")
@@ -462,7 +461,7 @@ class App(customtkinter.CTk):
         
 
 
-        #Name modification stuff
+        # Modification du nom
         #=======================
         self.current_body_name_frame = customtkinter.CTkFrame(master=self.right_frame_subWindow)
         self.current_body_name_frame.grid(row=1, column=0, columnspan=2, padx=10, pady=10, sticky="eswn")
@@ -479,7 +478,7 @@ class App(customtkinter.CTk):
         self.name_entry_modification.grid(row=1, column=0, padx=10, pady=(5, 10), sticky='nwes')
 
 
-        #Color modification stuff
+        # Modification de la couleur
         #========================
         self.current_body_color_frame = customtkinter.CTkFrame(master=self.right_frame_subWindow)
         self.current_body_color_frame.grid(row=2, column=0, columnspan=2, padx=10, pady=10, sticky="eswn")
@@ -508,7 +507,7 @@ class App(customtkinter.CTk):
         self.color_opacity_label.grid(row=2, column=0, columnspan=2, padx=(10, 10), pady=5, sticky="w")
 
 
-        #Position modification stuff
+        # Modification de la position
         #===========================
         self.current_body_position_frame = customtkinter.CTkFrame(master=self.right_frame_subWindow)
         self.current_body_position_frame.grid(row=0, column=2, rowspan=2, padx=10, pady=10, sticky="eswn")
@@ -534,7 +533,7 @@ class App(customtkinter.CTk):
         self.entry_position_y.grid(row=2, column=1, padx=(5, 10), pady=10)
 
 
-        #Velocity modification stuff
+        # Modification de la vitesse
         #===========================
         self.current_body_velocity_frame = customtkinter.CTkFrame(master=self.right_frame_subWindow)
         self.current_body_velocity_frame.grid(row=2, column=2, padx=10, pady=10, sticky="eswn")
@@ -560,9 +559,9 @@ class App(customtkinter.CTk):
         self.entry_velocity_y.grid(row=2, column=1, padx=(5, 10), pady=10)
         
         
-        #Save Button
+        # Bouton sauvegarder
         #===========
-        self.accept_button_save_changes = customtkinter.CTkButton(self.right_frame_subWindow, text="Save",width=60,
+        self.accept_button_save_changes = customtkinter.CTkButton(self.right_frame_subWindow, text="Sauvegarder",width=60,
                                                                   command=self.saveChangesToBody)
         tl.CreateToolTip(self.accept_button_save_changes, "Sauvegarde les modifications apportées.")
         self.accept_button_save_changes.grid(row=2, column=3, padx=15, pady=15, sticky='es')
@@ -585,12 +584,12 @@ class App(customtkinter.CTk):
     
     def saveChangesToBody(self):
         """
-        Gets the all user entrys in the body modification window and apply them.
+        Récupère toutes les entrées de l'utilisateur dans la fenêtre de modification du corps et les applique.
         """
         if len(self.bad_values_list) == 0:
             body_index = self.current_body_index
             
-            #Fromat changes
+            # Formater les changements
             #==============
             v_x=Decimal(self.velocity_x_var.get().replace(',', '.').replace(' ', ''))
             v_y=Decimal(self.velocity_y_var.get().replace(',', '.').replace(' ', ''))
@@ -599,7 +598,7 @@ class App(customtkinter.CTk):
             mass=Decimal(self.mass_var.get().replace(',', '.').replace(' ', ''))
             size=float(self.size_var.get().replace(',', '.').replace(' ', ''))
             
-            #Update changes
+            #Mis à jour des changements
             #==============
             self.bodyList[body_index].name = self.name_body_var.get()
             self.bodyList[body_index].pos_x = pos_x
@@ -608,7 +607,7 @@ class App(customtkinter.CTk):
             self.bodyList[body_index].velocity.y = v_y
             self.bodyList[body_index].masse = mass
             self.bodyList[body_index].size = size
-            #Opacity changes
+            # Changement d'opacité
             r=int(self.bodyList[body_index].color[0])
             g=int(self.bodyList[body_index].color[1])
             b=int(self.bodyList[body_index].color[2])
@@ -621,20 +620,15 @@ class App(customtkinter.CTk):
             print("Certaines valeurs ne sont pas bonnes !")
 
     def addContentValidator(self, entry:customtkinter.CTkEntry, type:Union[float, int, bool]):
-        """Makes it easy to bind a contentValidator to a entry
-
-        :param entry: The widget whose content is to be checked
-        :type entry: customtkinter.CTkEntry
-        :param type: Data type the value should matchs
-        :type type: Union[float, int, bool]
         """
-        
+        Facilite la liaison d'un contentValidator à une entrée.
+        """
         entry.bind("<KeyRelease>", lambda x:self.entryContentValidator(entry, type))
 
     
     def saveTheme(self):
         """
-        Saves the theme infos in the 'info.init' file
+        Sauvegarde les informations du thème dans le fichier 'info.init'.
         """
         text = ''
         for key, value in self.theme.items():
@@ -645,21 +639,16 @@ class App(customtkinter.CTk):
         with open(themePath, 'w') as file:
             file.writelines(text)
             file.close()
-        
-            
-        
-    
-    def entryContentValidator(self, entry:customtkinter.CTkEntry, type_:Union[float, int, bool]):
-        """Allows to change the color of the text of an input dynamically, if the user input does not match
-        the expected data type.
 
-        :param entry: The widget whose content is to be checked
-        :type entry: customtkinter.CTkEntry
-        :param type_: Data type the value should matchs
-        :type type_: Union[float, int, bool]
+
+    def entryContentValidator(self, entry:customtkinter.CTkEntry, type_:Union[float, int, bool]):
+        """
+        Permet de modifier dynamiquement la couleur du texte d'une entrée, 
+        si l'entrée de l'utilisateur ne correspond pas au type de données attendu. 
         """
         value = entry.get()
         try:
+            value = type_(value)
             good_value = True
         except:
             entry.configure(fg_color = "red")
@@ -676,7 +665,7 @@ class App(customtkinter.CTk):
 
     def startSimulation(self):
         """
-        Initializes and start the simulation with the current settings
+        Initialise et démarre la simulation avec les paramètres actuels
         """
         self.saveInfoFromPreviewCanvas()
         if sys.platform == "win32":
@@ -706,7 +695,7 @@ class App(customtkinter.CTk):
         MAX_ORBIT_POINT = self.app_info["max_orbit_point"]
         SHADER_PRESET = self.app_info["shader_preset"]
         
-        #For debug purpose
+        # Pour le débogage
         print("Trying to start a simulation with the following parameters :")
         print("============================================================")
         print(f"Simulation parameters: ")
@@ -758,11 +747,11 @@ class App(customtkinter.CTk):
 
     def pickAColor(self):
         """
-        Opens a color picker and apply the selected color to the body selected by the user.
+        Ouvre un sélecteur de couleurs et applique la couleur sélectionnée au corps choisi par l'utilisateur.
         """
         index = self.current_body_index
 
-        #Previous color
+        # Ancienne couleur
         #==============
         r=self.bodyList[index].color[0]
         g=self.bodyList[index].color[1]
@@ -770,7 +759,7 @@ class App(customtkinter.CTk):
 
         colorWindow = CTkColorPicker.AskColor(color=(r, g, b))
         new_color_hex:str = colorWindow.get()
-        #Convert hex to rgb
+        # Conversion de hex à rgb
         #==================
         new_color = list(int(new_color_hex.lstrip('#')[i:i+2], 16) for i in (0, 2, 4))
         
@@ -779,7 +768,7 @@ class App(customtkinter.CTk):
 
     def saveInfoFromPreviewCanvas(self):
         """
-        Gets the position and the velocity infos of the bodys in the preview canvas and update self.bodyList.
+        Récupère les infos de position et de vitesse des corps dans le cadre de prévisualisation et met à jour self.bodyList.
         """
         scale = Decimal(self.app_info["scale"] * 10**App.DICO_UNITS[self.app_info["scale_unit"]])
         new_pos_and_velocity = self.previsual_canvas.get_all_positions()
@@ -792,7 +781,7 @@ class App(customtkinter.CTk):
 
     def onModificationWindowClose(self):
         """
-        Callback function for closing the modification window.
+        Fonction appelée lors de la fermeture de la fenêtre de modification des corps
         """
         
         self.body_modification_window.grab_release()
@@ -802,14 +791,14 @@ class App(customtkinter.CTk):
         
     def redrawInterface(self):
         """
-        Recreates the default inteface
+        Recrée l'interface par défaut.
         """
         self.createMainInterface()
 
 
     def addBody(self):
         """
-        Adds a new body with default parameters to the body list
+        Ajoute un nouveau corps avec des paramètres par défaut à la liste des corps.
         """
         self.saveInfoFromPreviewCanvas()
         name = f"corp n°{len(self.bodyList) + 1}"
@@ -821,7 +810,7 @@ class App(customtkinter.CTk):
 
     def deleteBody(self):
         """
-        Removes a body from the body list.
+        Supprime un corps de la liste des corps.
         """
         self.bodyList.pop(self.current_body_index)
         self.onModificationWindowClose()
@@ -829,7 +818,7 @@ class App(customtkinter.CTk):
 
     def on_closing(self, event=0):
         """
-        Closes the window and call the function to clear the sprite folder
+        Ferme la fenêtre et appelle la fonction pour effacer le dossier des sprites.
         """
         self.cleanSpriteFolder()
         self.destroy()
@@ -837,7 +826,7 @@ class App(customtkinter.CTk):
         
     def reloadProgram(self):
         """
-        Closes and restart the program
+        Redémarre le programe
         """
         temp_file_path = os.path.join(self.path, "reload.temp")
         with open(temp_file_path, "x") as file:
@@ -850,11 +839,7 @@ class App(customtkinter.CTk):
 
     def isAReload(self):
         """
-        Verifies if the program was launched manually by the user or if it was launched by the reloading process.
-        Returns
-        -------
-        _type_ booleen
-            _description_ return True if the program was launched by the reloading process, False if it wasn't.
+        Vérifie si le programme a été lancé manuellement par l'utilisateur ou s'il a été lancé par le processus de rechargement.
         """
         temp_path = os.path.join(self.path, "reload.temp")
         if os.path.exists(temp_path):
@@ -869,9 +854,9 @@ class App(customtkinter.CTk):
               
     def saveConfigurationAs(self, save_path:str=None):
         """
-        Asks the user in which file he wants the configuration to be saved in, then saves the configuration.
+        Demande à l'utilisateur dans quel fichier il souhaite que la configuration soit enregistrée, puis enregistre la configuration.
         """
-        #JSON doesn't know how to handle Decimal type, so it must be converted to float
+        # JSON ne sait pas gérer le type Decimal, il odit donc être converti en float
         if not save_path:
             save_path = filedialog.asksaveasfilename(filetypes=[('Configuration file', '*.json')])
         
@@ -887,10 +872,9 @@ class App(customtkinter.CTk):
         
     def saveConfiguration(self):
         """
-        Saves the configuration in the already opened file.
+        Enregistre la configuration dans le fichier déjà ouvert.
         """
-        #Type Decimal est considéré comme "float" par python
-        #JSON ne sait pas comment le dump, il faut donc le convertir en float
+        # JSON ne sait pas gérer le type Decimal, il odit donc être converti en float
         self.saveInfoFromPreviewCanvas()
         app_info_to_save = {}
         for key, value in self.app_info.items():
@@ -902,13 +886,7 @@ class App(customtkinter.CTk):
         
     def changeColorTheme(self, theme, color):
         """
-        Changes the color and the theme of the windows
-        Parameters
-        ----------
-        theme : _type_ str
-            _description_ define the theme chose
-        color : _type_ str
-            _description_ define the color theme chose
+        Modifie la couleur et le thème de l'interface
         """
         info_path = os.path.join(self.path, 'info.init')
         with open(info_path, 'w') as file:
@@ -920,7 +898,7 @@ class App(customtkinter.CTk):
     
     def loadthemePreset(self):
         """
-        Loads the theme infos which are stored in the 'info.init' file
+        Charge les informations du thème qui sont stockées dans le fichier 'info.init'.
         """
         info_path = os.path.join(self.path, 'info.init')
         with open(info_path, 'r') as file:
@@ -934,18 +912,16 @@ class App(customtkinter.CTk):
 
 
 def is_admin() -> bool:
-    """Checks if python run in admin mode.
-
-    :return: True if the script run in admin (or sudo) mode, else false
-    :rtype: bool
+    """
+    Verifie si python a les privilèges admin
     """
     is_admin = ctypes.windll.shell32.IsUserAnAdmin()
     return is_admin      
 
 def main(args):
     
-     # Verifie the os .
-    # If the program run on window, ask for admin privileges.
+    # Verifie l'os.
+    # Si le programme est exécuté sous Windows, il demande des privilèges d'administrateur.
     if sys.platform == "win32" and not args.na:
         if is_admin():
             print(f"Executable : {sys.executable}")

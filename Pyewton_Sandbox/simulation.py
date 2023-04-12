@@ -14,10 +14,9 @@ from computation_rules import generate_computation_file
 def hex_to_rgb(hex:str) -> "tuple[int]":
     return tuple(int(hex.replace("#", "")[i:i+2], 16) for i in (0, 2, 4))
 
-
-# GLSL code for the background shader
-# The code was inspired by this one : https://api.arcade.academy/en/latest/tutorials/shader_toy_particles/index.html
-# It was however heavely modified to solve performance issues and to match our specific needs
+# Code GLSL pour le shader d'arrière-plan
+# Le code a été inspiré par celui-ci : https://api.arcade.academy/en/latest/tutorials/shader_toy_particles/index.html
+# Il a cependant été fortement modifié pour résoudre les problèmes de performance et pour correspondre à nos besoins spécifiques
 bg_shader =    """uniform vec2 offset;
                     uniform bool show_axis;
                     uniform vec3 axis_color;
@@ -108,7 +107,7 @@ class Simulation(arcade.Window):
     
     time_dict = {"s":1, "min":60, "h":60, "j":24, "ans":Decimal(365.25)}
     
-    shader_parameters_list = {"Epuré":(0, 0), "Beau":(100, 5), "Magnifique":(300, 15), "Performance killer":(600, 30)}
+    shader_parameters_list = {"Epuré":(0, 0), "Beau":(100, 5), "Magnifique":(300, 15), "Performance killer":(600, 30)} #keys : nom du preset, value : (star_count, volume_steps)
     
     def __init__(self, 
                  width:int,               
@@ -133,44 +132,25 @@ class Simulation(arcade.Window):
                  show_orbit:bool=False,
                  max_orbit_point:int=10000,
                  shader_preset:str="Performance killer"):
-        """Initialize the simulation class
-
-        Arguments:
-            :width -- Largeur (en pixels) de la fenêtre  
-            :height -- Hauteur (en pixels) de la fenêtre  
-            :bodyList -- Liste contenant toutes les instances des planètes de la simulation  
-
-        Keyword Arguments:
-            fullscreen -- Configure la fenêtre en plein écran (default: {False})
-            time_multiplier -- Nombre de secondes simulations par secondes réelles (default: {1})
-            update_rate -- Inverse du nombre d'itérations de calcul par secondes simulation (default: {1/120})
-            iteration_max -- Nombre d'itérations de calcul après lequel la simulation s'arrète (default: {-1})
-            scale -- _description_ (default: {1})
-            show_mass_center -- _description_ (default: {True})
-            show_average_center -- _description_ (default: {True})
-            show_axis -- _description_ (default: {True})
-            mass_center_color -- _description_ (default: {"#ffffff"})
-            average_center_color -- _description_ (default: {"#ffffff"})
-            axis_color -- _description_ (default: {"#ffffff"})
-            compute_rule -- _description_ (default: {"No distance"})
-            gpu_mode -- _description_ (default: {0})
+        """
+        Initialise la classe simulation
         """
     
         #Initialisation de la fenêtre
         super().__init__(width, height, resizable=False)
         
-        #Assignation of different values   
+         
         if fullscreen:
             arcade.Window.set_fullscreen(self)
         else:
             self.height = height
             self.width = width 
         
-        #Camera's creation
+        # Creation des caméras
         self.camera_bodys = arcade.Camera(self.width, self.height)
         self.camera_background = arcade.Camera(self.width, self.height)
         
-            
+        # Assignation de paramètres globals 
         self.path = os.path.dirname(os.path.realpath(__file__))                                                            
         self.bodyList = bodyList
         self.time_multiplier = Decimal(time_multiplier)
@@ -235,52 +215,48 @@ class Simulation(arcade.Window):
 
     def setup(self):
         """
-        Set the parameters before starting the simulation
+        Régler les paramètres avant de commencer la simulation
         """ 
-        #Background color
+        # Couleur de l'arrière plan
         arcade.set_background_color(arcade.color.BLACK)
         
-        #Modify the update rate
+        # Modification de la fréquence des mise à jour
         self.set_update_rate(float(self.update_rate /self.time_multiplier))
 
-        #Fixing a delta time
+        # Mise en place d'un delaTime fixe
         self.delta_time = Decimal(self.update_rate)
         
         self.simulation_time = 0
             
-        #Sprites list creation
+        # Creation de la liste de sprite
         self.spriteList = arcade.SpriteList()
         
-        #Centring the simulation
+        # On centre la simulation
         self.spriteOffset.x = self.width / 2
         self.spriteOffset.y = self.height / 2
                 
-        #Creation and set of the camera which monitor the bodys show
         
+        # Centrage de la caméra principale
         self.camera_bodys.move((-self.spriteOffset.x, -self.spriteOffset.y))
-
-        #Creation and set of the camera which monitor the background show
         
-        #self.camera_background.move((-self.spriteOffset.x, -self.spriteOffset.y))
         
-        #Creation of camera for scale indicator scale
+        # Creation de la caméra pour le ui
         self.ui_camera = arcade.Camera(self.width, self.height)
         
-        #Center mass sprite initialization 
+        # Initialisation du centre moyen
         if self.show_mass_center:
             self.mass_centerSprite = arcade.SpriteCircle(10, self.mass_center_color)
-        #whole system mass
+        # Masse totale du système
         self.total_masse = 0
         for body in self.bodyList:
             self.total_masse+=body.masse
         
-        #Average's center mass sprite's initialization
+        # Initialisation du centre de gravité
         if self.show_average_center:
             self.center_sprite = arcade.SpriteCircle(10, self.average_center_color)
             
         #Shaders
-        shader_parameters_list = {"Epuré":(0, 0), "Beau":(100, 5), "Magnifique":(300, 15)} #keys : name of the preset, value : (star_count, volume_steps)
-        
+
         self.background_shader = Shadertoy(size=self.get_size(),
                                    main_source=bg_shader)
         self.background_shader.program['show_axis'] = self.show_axis
@@ -290,7 +266,7 @@ class Simulation(arcade.Window):
         
         
 
-        #Instantiating the positioning of the bodys
+        # Instantiation et positionnement des corps
         for body in self.bodyList:
             body_sprite = arcade.Sprite(body.spritePath)
             body_sprite.center_x = float(body.pos_x * self.scale)
@@ -306,34 +282,33 @@ class Simulation(arcade.Window):
         Function called every frame to calculate the image
         (built-in function of the arcade module)
         """
-        # Update the sprite position
+        # Mise à jour de la position des sprites
         #============================
         indexPlanet = 0
         for sprite in self.spriteList:
-            # Set the sprite's x and y position to the corresponding body's x and y position
-            # multiplied by the scale
+            # Défini la position x et y du sprite à la position x et y du corps correspondant
+            # multipliées par l'échelle
             sprite.center_x = float((self.bodyList[indexPlanet].pos_x) / self.scale)
             sprite.center_y = float((self.bodyList[indexPlanet].pos_y) / self.scale)
-            # Increment the index to move to the next body in the list
+            # Incrémenter l'index pour passer à au corps suivant dans la liste
             indexPlanet += 1
 
         self.clear()
-        # Clear the screen and draw the sprites
         self.camera_background.use()
         # Mettre à jour les uniforms dans le shader
         self.background_shader.program['offset'] = Decimal(self.spriteOffset.x), Decimal(self.spriteOffset.y)
-        #print(f"Scale : {self.scale}")
 
-        # Run the GLSL code
+        # Execution du shader
         self.background_shader.render(time=self.time)
         
-        #Update the body's scale
+        # Mise à jour de l'échelle
         if self.zoom_increasing == True or self.zoom_decreasing == True :
             self.updateSpriteScale()
         
         self.camera_bodys.use()
         self.spriteList.draw()
         
+        # Gestion de l'affichage des trajectoires
         if self.show_orbit:
             
             i=0
@@ -347,10 +322,10 @@ class Simulation(arcade.Window):
                 self.orbit_points_SpriteList.draw()
         
         
-        #Draw the force vectors applied to the selected body 
+        # Dessiner les vecteurs de force appliqués au corps sélectionné
         self.drawForceVector()
         
-        # Draw the mass center and center sprites if the corresponding flags are set
+        # Dessine les sprites du centre de la masse et du centre si les drapeaux correspondants sont activés.
         if self.show_mass_center:
             self.mass_centerSprite.draw()
         if self.show_average_center:
@@ -362,18 +337,18 @@ class Simulation(arcade.Window):
         
         arcade.draw_text(self.zoom_indicator_text, float(self.scale_indicator_end.x), float(self.scale_indicator_end.y -20))
 
-        #Main indicator line
+        # Principale ligne de l'indiquateur
         arcade.draw_line(self.scale_indicator_start.x, self.scale_indicator_start.y, self.scale_indicator_end.x, self.scale_indicator_end.y, arcade.color.WHITE, 2)
               
-        #Mid vertical separator
+        # Separateur vertical du milieu
         arcade.draw_line((self.scale_indicator_end.x+self.scale_indicator_start.x)/2, self.scale_indicator_start.y+6,
                          (self.scale_indicator_end.x+self.scale_indicator_start.x)/2, self.scale_indicator_start.y, arcade.color.WHITE, 1)
         
-        #First vertical separator
+        # Premier separateur vertical
         arcade.draw_line(self.scale_indicator_start.x, self.scale_indicator_start.y,
                          self.scale_indicator_start.x, self.scale_indicator_start.y+10, color=arcade.color.WHITE, line_width=2)
         
-        #Last vertical separator
+        # Dernier separateur vertical
         arcade.draw_line(self.scale_indicator_end.x, self.scale_indicator_end.y,
                          self.scale_indicator_end.x, self.scale_indicator_end.y+10, color=arcade.color.WHITE, line_width=2)
         
@@ -386,41 +361,27 @@ class Simulation(arcade.Window):
 
     def on_mouse_drag(self, x: int, y: int, dx: int, dy: int, buttons: int, modifiers: int):
         """
-        Function called when the mouse is dragged.
-        (built-in function of the arcade module)
-
-        Parameters:
-            x (int): The current x-coordinate of the mouse.
-            y (int): The current y-coordinate of the mouse.
-            dx (int): The change in x-coordinate of the mouse.
-            dy (int): The change in y-coordinate of the mouse.
-            buttons (int): An integer representing the buttons that are pressed.
-            modifiers (int): An integer representing any keyboard modifiers that are pressed.
+        Fonction appelée lorsque la souris est glissée.
+        (fonction intégrée au module d'arcade)
         """
-        # Update the sprite offset by the change in x and y position of the mouse
+        # Mise à jour de l'offset des sprites en fonction du changement de la position x et y de la souris
         self.spriteOffset.x += dx
         self.spriteOffset.y += dy
-        # Move the camera by the opposite of the sprite offset
+        # Déplace la caméra de l'opposé de l'offset des sprites
         self.camera_bodys.move((-self.spriteOffset.x, -self.spriteOffset.y))
 
 
     def on_mouse_motion(self, x: int, y: int, dx: int, dy: int):
         """
-        Function called when the mouse is moved.
-        (built-in function of the arcade module)
-
-        Parameters:
-            x (int): The current x-coordinate of the mouse.
-            y (int): The current y-coordinate of the mouse.
-            dx (int): The change in x-coordinate of the mouse.
-            dy (int): The change in y-coordinate of the mouse.
+        Fonction appelée lorsque la souris est déplacée.
+        (fonction intégrée au module d'arcade)
         """
         self.mouse_coord = (x, y)
 
 
     def drawForceVector(self):
         """
-        This function draws all the vectors representing a force applied to the body pointed by self.index_body_selected.
+        Cette fonction dessine tous les vecteurs représentant une force appliquée au corps pointé par self.index_body_selected.
         """
         vectors_to_draw = [vector for vector in self.vector_force_list if vector[0]==self.index_body_selected]
         for current_vector in vectors_to_draw:
@@ -434,6 +395,8 @@ class Simulation(arcade.Window):
                             color = self.bodyList[current_vector[1]].color, line_width=2)
             
             vector_lenght = vector_to_draw.norme()
+            
+            # Dessiner la pointe en flêche 
             if vector_lenght > 10:
                 vector_angle = vector_to_draw.angle_with_X_axis()
                 
@@ -449,14 +412,8 @@ class Simulation(arcade.Window):
 
     def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
         """
-        Function called when the mouse is pressed.
-        (built-in function of the arcade module)
-
-        Parameters:
-            x (int): The current x-coordinate of the mouse.
-            y (int): The current y-coordinate of the mouse.
-            buttons (int): An integer representing the buttons that are pressed.
-            modifiers (int): An integer representing any keyboard modifiers that are pressed.
+        Fonction appelée lorsque la souris est pressée.
+        (fonction intégrée au module d'arcade)
         """
         if button == arcade.MOUSE_BUTTON_LEFT:
             click_time = time()
@@ -473,14 +430,7 @@ class Simulation(arcade.Window):
                 
     def get_sprite_indice_at_point(self, x:int, y:int) -> Union[int, None]:
         """
-        This function return the indice of the body ( and the body's sprite ) at a given point of the screen.
-
-        :param x: x coordinate of the point
-        :type x: int
-        :param y: y coordinate of the point
-        :type y: int
-        :return: Indice of the body. if there isn't a body at the givent point, None is return
-        :rtype: int | None
+        Cette fonction renvoie l'indice du corps ( et du sprite du corps ) situé à un point donné de l'écran.
         """
         sprite_index = None
         sprite_under_mouse = arcade.get_sprites_at_point((x - self.spriteOffset.x, y - self.spriteOffset.y), self.spriteList)
@@ -490,16 +440,8 @@ class Simulation(arcade.Window):
     
     def on_key_press(self, symbol: int, modifiers: int):
         """
-        Called whenever a key is pressed
-
-        Parameters
-        ----------
-        symbol : int
-            symbols on the keyboard
-        modifiers : int
-            modifiers of the keyboard
+        Gère le système d'entrée utilisateur
         """
-        #zoom monitoring
         if symbol == arcade.key.DOWN:
             self.zoom_increasing = True
             
@@ -522,7 +464,7 @@ class Simulation(arcade.Window):
 
     def on_close(self):
         """
-        Close the simulation window
+        Ferme la fenêtre de simulation
         """
         self.t2 = time()
         print(f"Temps réel écoulé : {self.t2 - self.t1}s")
@@ -538,13 +480,7 @@ class Simulation(arcade.Window):
 
     def on_key_release(self, symbol: int, modifiers: int):
         """
-        Stop the zoom/dezoom if the keys aren't pressed
-        Parameters
-        ----------
-        symbol : int
-            Symbols of the keyboard
-        modifiers : int
-            Modifiers of the keyboard
+        Arrêter le zoom/dezoom si la touches n'est pas enfoncée
         """
         self.zoom_decreasing = False
         self.zoom_increasing = False
@@ -552,8 +488,8 @@ class Simulation(arcade.Window):
     
     def update(self, delta_time):
         """
-        Function called at a regular time defined by the variable "update_rate"
-        (built-in function of the arcade module)
+        Fonction appelée à un interval régulier défini par la variable "update_rate"
+        (fonction intégrée du module arcade)
         """
         if self.iteration == 0:
             self.t1 = time()
@@ -566,7 +502,7 @@ class Simulation(arcade.Window):
                     if i != body_indice:
                         
                         
-                        #Calcul of the norm of the force's vector 
+                        # Calcul de la norme du vecteur force
                         norme = self.calcul_norme.computeNorme(body, self.bodyList[i])
                         
                         attraction = Vecteur2D.composante_XY(norme, body.pos_x, body.pos_y, self.bodyList[i].pos_x, self.bodyList[i].pos_y)
@@ -575,19 +511,19 @@ class Simulation(arcade.Window):
                         self.vector_force_list.append(force_to_append)
                         
                         
-                        #Setting of the values
+                        # Mise à jour des valeurs
                         body.velocity.x += attraction.x * self.delta_time / body.masse
                         body.velocity.y += attraction.y * self.delta_time / body.masse
                     i += 1
                     
                 body_indice += 1
                     
-            #Update position of the bodys
+            # Mise à jour des positions des corps
             for body in self.bodyList:
                 
                 body.pos_x += (body.velocity.x) * self.delta_time
                 body.pos_y += (body.velocity.y) * self.delta_time
-                #Update the orbit list
+                # Mise à jour des points de trajectoire
                 if self.show_orbit:                   
                     
                     pos = body.pos_x, body.pos_y
@@ -606,7 +542,7 @@ class Simulation(arcade.Window):
             
             if self.show_mass_center: 
                 
-                #Update position of the center of mass
+                # Mise à jour de la position du centre de masse
                 average_mass_center = Vecteur2D(0, 0)
                 for body in self.bodyList:
                     average_mass_center.x += body.pos_x*body.masse
@@ -614,38 +550,38 @@ class Simulation(arcade.Window):
                 average_mass_center.x /= self.total_masse
                 average_mass_center.y /= self.total_masse
                 
-                #Update mass center sprite position
                 self.mass_centerSprite.center_x = average_mass_center.x / self.scale
                 self.mass_centerSprite.center_y = average_mass_center.y / self.scale
 
             
             if self.show_average_center:
                 
-                #Update position of the average center
+                # Mise à jour de la position moyenne des planètes
                 average_pos = Vecteur2D(0, 0)
                 for body in self.bodyList:
                     average_pos.x += body.pos_x
                     average_pos.y += body.pos_y
                     
-                #Update position of the average center sprite
                 average_pos.x /= len(self.bodyList)
                 average_pos.y /= len(self.bodyList)
                 
                 self.center_sprite.center_x = average_pos.x / self.scale
                 self.center_sprite.center_y = average_pos.y / self.scale
 
-            #Update the number of time the function update() has been called
+            # Mise à jour le nombre de fois que la fonction update() a été appelée
             self.iteration += 1
 
-            #Stop the simulation if the number of iteration reach the max
-            if self.iteration_max==self.iteration:          
+            # Arrêt de la simulation si le nombre d'itérations atteint le maximum.
+            if self.iteration_max==self.iteration:    
+                for planet in self.bodyList:
+                    print(f"{planet.name} : x:{planet.pos_x}, y:{planet.pos_y}")      
                 arcade.close_window()
 
             delta_time = Decimal(delta_time)
             self.time += delta_time
             self.simulation_time += self.time_multiplier
             
-        #Increasting/decreasting of the zoom
+        # Augmentation / diminution du zoom
         if self.zoom_increasing:
             self.scale *=Decimal(1.01)
             self.scale_as_changed = True
@@ -653,7 +589,7 @@ class Simulation(arcade.Window):
             self.scale /=Decimal(1.01)
             self.scale_as_changed = True    
         
-        #Stay focus on the body point by self.body_on_focus
+        # Rester centré sur le corps point par self.body_on_focus
         if self.body_on_focus != None:
             pos_x = float(self.bodyList[self.body_on_focus].pos_x)
             pos_y = float(self.bodyList[self.body_on_focus].pos_y)
@@ -667,7 +603,7 @@ class Simulation(arcade.Window):
         
     def updateTimeText(self):
         """
-        Update the time shown
+        Mise à jour du temps affiché
         """
         current_time = self.iteration * self.delta_time
         value = current_time
@@ -683,7 +619,7 @@ class Simulation(arcade.Window):
     
     def updateSpriteScale(self):
         """
-        Updating the sprite's scale depending on the zoom
+        Mise à jour de l'échelle des sprites en fonction du zoom
         """
         if self.scale > 0.2 and self.scale < 5:
             self.body_scale = Decimal(1/self.scale)
@@ -721,19 +657,19 @@ class Simulation(arcade.Window):
 
     def updateVectorsScale(self):
         """
-        Update the vectors depending on the zoom
+        Mise à jour de la taille des vecteurs en fonction du zoom
         """
-        #Find the longest vector:
+        # Recherche du vecteur le plus long
         normes = [vector[2] for vector in self.vector_force_list if vector[0]==self.index_body_selected]
         norme_max = max(normes)
         
-        #Calcul the value so this vector doesn't exceed the third of the screen diagonal
+        #   Calcul du coefficient pour que le vecteur ne mesure pas plus du tiers de la diagonale de l'écran
         screen_diagonal = Decimal(sqrt(self.height**2 + self.height**2)) / 3
         self.vectors_scale = screen_diagonal * self.scale / norme_max
         
                 
 
-#For tests purpose
+# A des fin de test
 if __name__ == "__main__":
     body_list = [Body("Saturne", pos=(100, 100), color=(255, 0, 0)), Body("Nice", pos=(-100, -100), velocity=Vecteur2D(0, 50), color=(0, 0, 255))]
     simulation = Simulation(900, 900, body_list, shader_preset="Epuré", show_orbit=True, max_orbit_point=2000)
