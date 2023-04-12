@@ -6,7 +6,7 @@
 
 ## Prérequis :
 * Système d'exploitation : Windows 10 et ultérieurs
-* Python version 3.7 et ultérieurs (d'autres versions peuvent fonctionner mais n'ont pas été testées)
+* Python version 3.10 et ultérieurs (d'autres versions peuvent fonctionner mais n'ont pas été testées)
 * Carte graphique supportant OpenGL 3.3 (des pilotes graphiques trop anciens peuvent poser des problèmes)
 
 ## Installation : 
