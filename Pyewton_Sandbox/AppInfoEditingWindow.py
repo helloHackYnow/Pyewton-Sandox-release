@@ -20,6 +20,8 @@ class AppInfoTopWindow(customtkinter.CTkToplevel):
         
         current_dir  = os.path.dirname(os.path.realpath(__file__))
         
+        self.cancel_appInfo_Dict = deepcopy(appInfo)
+        
         
         if sys.platform == "win32":
             self.after(200, lambda: self.iconbitmap(os.path.join(current_dir, "Icons", "settings.ico")))
@@ -115,7 +117,7 @@ class AppInfoTopWindow(customtkinter.CTkToplevel):
         self.ok_button = customtkinter.CTkButton(master=self.bottom_frame, text="Appliquer", width=50, command=self._ok_event)
         self.ok_button.grid(column=1, sticky="e")
         
-        self.cancel_button = customtkinter.CTkButton(master=self.bottom_frame, text="Annuler", width=50)
+        self.cancel_button = customtkinter.CTkButton(master=self.bottom_frame, text="Annuler", width=50, command=self._on_closing)
         self.cancel_button.grid(row=0,column=0, sticky="e", padx=(0, 5))
         
        
